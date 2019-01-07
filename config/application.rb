@@ -31,5 +31,10 @@ module ChronologySdk
     # Middleware like session, flash, cookies can be added back manually.
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
+    config.action_dispatch.default_headers = {
+      'Access-Control-Allow-Origin' => 'http://my-web-service-consumer-site.com',
+      'Access-Control-Request-Method' => %w{GET POST OPTIONS}.join(",")
+    }
+    config.action_controller.default_protect_from_forgery = false
   end
 end
