@@ -4,14 +4,14 @@ class Api::V1::GamesController < ApplicationController
   def create_timeline 
     earliest_record = Card.minimum(:date)
     latest_record = Card.maximum(:date)
-    # if game_params[:startDate].to_i < earliest_record || game_params[:endDate].to_i > latest_record 
-      # HistoryAPI.process_request(game_params[:startDate], game_params[:endDate])
-    # end 
-
-    @cards = Card.where("date > ? AND date < ?", Date.parse(game_params[:startDate]), Date.parse(game_params[:endDate]))
+    startDate = Date.parse(game_params[:startDate])
+    endDate = Date.parse(game_params[:endDate])
+    if startDate < earliest_record || endDate > latest_record 
+      HistoryAPI.process_request(game_params[:startDate], game_params[:endDate])
+    end 
+    @cards = Card.where("date > ? AND date < ?", startDate, endDate)
+    
     puts @cards.length
-    # puts @cards.first['date']
-    # byebug
     render json: @cards, status: :created
   end 
 
