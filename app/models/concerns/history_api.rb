@@ -12,9 +12,11 @@ module HistoryAPI
   end 
 
   def self.process_request(begin_date, end_date)
-    result_hash = make_request(begin_date, end_date)
+    query_start = begin_date.split("-").join("")
+    query_end = end_date.split("-").join("")
+    result_hash = make_request(query_start, query_end)
     result_hash["result"]["event"].each do |event|
-      newCard = Card.new(date: event["date"].split("/").join(''), event: event["description"])
+      newCard = Card.new(date: event["date"], event: event["description"])
       if newCard.valid? 
         newCard.save()
       else
