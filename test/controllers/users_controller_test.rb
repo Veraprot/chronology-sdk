@@ -19,6 +19,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should show user" do
+    puts 'here'
     get user_url(@user), as: :json
     assert_response :success
   end
