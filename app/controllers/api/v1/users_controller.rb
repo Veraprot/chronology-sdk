@@ -1,6 +1,5 @@
 class Api::V1::UsersController < ApplicationController
-  before_action :authenticate_user, only: [:index, :show, :update, :destroy]
-  before_action :set_user, only: [:show, :update, :destroy]
+  skip_before_action :authorized, only: [:create]
   
   # GET /users
   def index
@@ -10,17 +9,21 @@ class Api::V1::UsersController < ApplicationController
 
   # GET /users/1
   def show
+    puts current_user
     render json: @user
   end
 
-  # POST /users
+  def profile
+    render json: { user: UserSerializer.new(current_user) }, status: :accepted
+  end
+
   def create
     @user = User.new(user_params)
-
-    if @user.save
-      render json: @user, status: :created
+    if @user.valid?
+      @user.save
+      render json: { user: UserSerializer.new(@user) }, status: :created
     else
-      render json: @user.errors, status: :unprocessable_entity
+      render json: { error: 'failed to create user' }, status: :not_acceptable
     end
   end
 
@@ -37,6 +40,11 @@ class Api::V1::UsersController < ApplicationController
   def destroy
     @user.destroy
   end
+
+  def find_current_user 
+    token = request.headers['Authorization'].split(" ")[1] # -> "Bearer {token}" -> just the token 
+    decoded_token = JWT.decode(token, ENV[SOME_SUPER_SECRET], true, algorithm: HS526) # -> 
+  end 
 
   private
     # Use callbacks to share common setup or constraints between actions.
