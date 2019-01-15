@@ -53,3 +53,10 @@ gem 'pry'
   gem 'pry-rails'
   gem 'pry-remote'
 
+
+gem 'figaro'
+
+
+gem "jwt", "~> 1.5"
+
+gem "faker", "~> 1.9"
