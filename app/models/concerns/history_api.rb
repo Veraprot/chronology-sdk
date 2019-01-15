@@ -16,7 +16,7 @@ module HistoryAPI
     query_end = end_date.split("-").join("")
     result_hash = make_request(query_start, query_end)
     result_hash["result"]["event"].each_with_index do |event, index|
-      if event["description"] != nil && !event["description"].include?("ampamp")
+      if event["description"] != nil && !event["description"].include?("ampamp") && !event["description"].include?("{{")
         newCard = Card.new(date: event["date"], event: event["description"])
         if newCard.valid? 
           newCard.save()
