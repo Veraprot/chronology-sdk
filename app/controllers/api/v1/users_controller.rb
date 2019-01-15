@@ -41,10 +41,10 @@ class Api::V1::UsersController < ApplicationController
     @user.destroy
   end
 
-  def find_current_user 
-    token = request.headers['Authorization'].split(" ")[1] # -> "Bearer {token}" -> just the token 
-    decoded_token = JWT.decode(token, ENV[SOME_SUPER_SECRET], true, algorithm: HS526) # -> 
-  end 
+  # def find_current_user 
+  #   token = request.headers['Authorization'].split(" ")[1] # -> "Bearer {token}" -> just the token 
+  #   decoded_token = JWT.decode(token, ENV[SOME_SUPER_SECRET], true, algorithm: HS526) # -> 
+  # end 
 
   private
     # Use callbacks to share common setup or constraints between actions.
