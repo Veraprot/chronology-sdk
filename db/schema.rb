@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_16_144723) do
+ActiveRecord::Schema.define(version: 2019_01_16_182706) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,8 +20,13 @@ ActiveRecord::Schema.define(version: 2019_01_16_144723) do
     t.string "event"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "game_cards", force: :cascade do |t|
     t.bigint "game_id"
-    t.index ["game_id"], name: "index_cards_on_game_id"
+    t.bigint "card_id"
+    t.index ["card_id"], name: "index_game_cards_on_card_id"
+    t.index ["game_id"], name: "index_game_cards_on_game_id"
   end
 
   create_table "games", force: :cascade do |t|
@@ -52,6 +57,8 @@ ActiveRecord::Schema.define(version: 2019_01_16_144723) do
     t.string "username"
   end
 
+  add_foreign_key "game_cards", "cards"
+  add_foreign_key "game_cards", "games"
   add_foreign_key "participants", "games"
   add_foreign_key "participants", "users"
 end

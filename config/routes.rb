@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do 
       resources :games
+      resources :participants
       resources :users, only: [:create]
       post '/login', to: 'auth#create'
       get '/profile', to: 'users#profile'
@@ -23,6 +24,5 @@ Rails.application.routes.draw do
       post 'games/timeline', to: 'games#create_timeline'
     end
   end 
-  mount ActionCable.server => '/game'
-
+  mount ActionCable.server => '/cable'
 end
