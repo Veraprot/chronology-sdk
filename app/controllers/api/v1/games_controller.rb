@@ -14,12 +14,28 @@ class Api::V1::GamesController < ApplicationController
       HistoryAPI.process_request(game_params[:start_date], game_params[:end_date]) 
     end 
     user = current_user
-    @game = Game.create(game_params)
-    Participant.create(user_id: current_user.id, game_id: @game.id, score: 0)
+    # @game = Game.create(game_params)
+    # Participant.create(user_id: current_user.id, game_id: @game.id, score: 0)
     @cards = Card.where("date > ? AND date < ?", start_date, end_date)
     
     render json: @cards, status: :created
   end 
+
+  def index
+    games = Game.all
+    render json: games
+  end
+
+  def create
+    game = Game.new(game_params)
+    if game.save
+      serialized_data = ActiveModelSerializers::Adapter::Json.new(
+        GameSerializer.new(game)
+      ).serializable_hash
+      ActionCable.server.broadcast 'games_channel', serialized_data
+      head :ok
+    end
+  end
 
   def game_params
     params.require(:game).permit(:start_date, :end_date)

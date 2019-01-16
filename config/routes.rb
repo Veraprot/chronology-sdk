@@ -21,7 +21,6 @@ Rails.application.routes.draw do
       get '/profile', to: 'users#profile'
 
       post 'games/timeline', to: 'games#create_timeline'
-      # post 'user_token' => 'user_token#create'
     end
   end 
   mount ActionCable.server => '/game'
