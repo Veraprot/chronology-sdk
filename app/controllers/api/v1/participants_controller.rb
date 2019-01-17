@@ -1,6 +1,5 @@
 class Api::V1::ParticipantsController < ApplicationController
   def create
-    byebug
     participant = Participant.new(participant_params)
     game = Game.find(participant_params[:game_id])
     if participant.save
