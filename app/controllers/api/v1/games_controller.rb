@@ -53,6 +53,6 @@ class Api::V1::GamesController < ApplicationController
   end
 
   def game_params
-    params.require(:game).permit(:start_date, :end_date)
+    params.require(:game).permit(:start_date, :end_date, :admin)
   end
 end
