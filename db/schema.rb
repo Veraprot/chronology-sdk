@@ -38,13 +38,13 @@ ActiveRecord::Schema.define(version: 2019_01_17_200001) do
   end
 
   create_table "participants", force: :cascade do |t|
-    t.integer "score"
+    t.integer "score", default: 0
     t.bigint "game_id"
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "num_of_answers"
-    t.integer "num_of_moves"
+    t.integer "num_of_answers", default: 0
+    t.integer "num_of_moves", default: 0
     t.index ["game_id"], name: "index_participants_on_game_id"
     t.index ["user_id"], name: "index_participants_on_user_id"
   end
